@@ -23,7 +23,7 @@ void main() {
         return Uint8List(0);
       });
 
-      final drawable = await AndroidDrawable().loadBitmap(name: 'foo');
+      final drawable = await const AndroidDrawable().loadBitmap(name: 'foo');
       expect(drawable?.content, Uint8List(0));
     });
 
@@ -35,7 +35,7 @@ void main() {
         return Uint8List(0);
       });
 
-      final drawable = await AndroidDrawable().loadBitmap(
+      final drawable = await const AndroidDrawable().loadBitmap(
         name: 'foo',
         type: DrawableType.mipmap,
       );
@@ -53,7 +53,7 @@ void main() {
         return Uint8List(0);
       });
 
-      final drawable = await AndroidDrawable().loadVector(name: 'foo');
+      final drawable = await const AndroidDrawable().loadVector(name: 'foo');
       expect(drawable?.content, Uint8List(0));
     });
 
@@ -66,7 +66,7 @@ void main() {
         return Uint8List(0);
       });
 
-      final drawable = await AndroidDrawable().loadVector(
+      final drawable = await const AndroidDrawable().loadVector(
         name: 'foo',
         scale: 2,
         type: DrawableType.mipmap,
@@ -84,7 +84,7 @@ void main() {
       return color.value;
     });
 
-    final drawable = await AndroidDrawable().loadColor(name: 'foo');
+    final drawable = await const AndroidDrawable().loadColor(name: 'foo');
     expect(drawable!.color, color);
   });
 
@@ -101,7 +101,8 @@ void main() {
         };
       });
 
-      final drawable = await AndroidDrawable().loadAdaptiveIcon(name: 'foo');
+      final drawable =
+          await const AndroidDrawable().loadAdaptiveIcon(name: 'foo');
       expect(drawable!.foreground, Uint8List(0));
       expect(drawable.background, Uint8List(0));
     });
@@ -118,7 +119,7 @@ void main() {
         };
       });
 
-      final drawable = await AndroidDrawable().loadAdaptiveIcon(
+      final drawable = await const AndroidDrawable().loadAdaptiveIcon(
         name: 'foo',
         scale: 2,
         type: DrawableType.mipmap,
