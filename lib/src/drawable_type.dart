@@ -1,0 +1,4 @@
+enum DrawableType {
+  drawable,
+  mipmap,
+}
