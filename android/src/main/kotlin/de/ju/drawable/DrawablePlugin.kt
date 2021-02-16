@@ -12,6 +12,7 @@ import java.lang.Exception
 const val channelId = "de.ju.drawable"
 const val drawableId = "id"
 const val scaleKey = "scale"
+const val typeKey = "type"
 const val foregroundKey = "foreground"
 const val backgroundKey = "background"
 
@@ -49,7 +50,8 @@ class DrawablePlugin : FlutterPlugin, MethodCallHandler {
 
     private fun loadBitmap(call: MethodCall, result: Result) {
         val bitmapName = call.argument<String>(drawableId)!!
-        val bitmap = loader.loadBitmapDrawable(bitmapName)
+        val type = call.argument<String>(typeKey)!!
+        val bitmap = loader.loadBitmapDrawable(bitmapName, type)
         if (bitmap != null) {
             result.success(bitmap)
         } else {
@@ -86,7 +88,8 @@ class DrawablePlugin : FlutterPlugin, MethodCallHandler {
         } else {
             val vectorName = call.argument<String>(drawableId)!!
             val scale = call.argument<Int>(scaleKey)!!
-            val color = loader.loadVectorDrawable(vectorName, scale)
+            val type = call.argument<String>(typeKey)!!
+            val color = loader.loadVectorDrawable(vectorName, scale, type)
             if (color != null) {
                 result.success(color)
             } else {
@@ -109,7 +112,8 @@ class DrawablePlugin : FlutterPlugin, MethodCallHandler {
         } else {
             val vectorName = call.argument<String>(drawableId)!!
             val scale = call.argument<Int>(scaleKey)!!
-            val adaptiveIconDrawable = loader.loadAdaptiveIconDrawable(vectorName, scale)
+            val type = call.argument<String>(typeKey)!!
+            val adaptiveIconDrawable = loader.loadAdaptiveIconDrawable(vectorName, scale, type)
             if (adaptiveIconDrawable != null) {
                 result.success(mapOf(
                         foregroundKey to adaptiveIconDrawable.first,

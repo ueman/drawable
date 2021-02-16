@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
 
 class DrawableLoader(private val context: Context) {
-    fun loadBitmapDrawable(name: String): ByteArray? {
-        return drawableByName(name)?.toBitmap()?.toByteArray()
+    fun loadBitmapDrawable(name: String, type: String): ByteArray? {
+        return drawableByName(name, type)?.toBitmap()?.toByteArray()
     }
 
     fun loadColorDrawable(name: String): Int {
@@ -24,8 +24,8 @@ class DrawableLoader(private val context: Context) {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun loadVectorDrawable(name: String, scale: Int): ByteArray? {
-        val drawable = drawableByName(name)
+    fun loadVectorDrawable(name: String, scale: Int, type: String): ByteArray? {
+        val drawable = drawableByName(name, type)
         if(drawable is VectorDrawable) {
             return drawable.toBitmap(scale)?.toByteArray()
         }
@@ -33,8 +33,8 @@ class DrawableLoader(private val context: Context) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun loadAdaptiveIconDrawable(name: String, scale: Int): Pair<ByteArray, ByteArray>? {
-        val drawable = drawableByName(name)
+    fun loadAdaptiveIconDrawable(name: String, scale: Int, type: String): Pair<ByteArray, ByteArray>? {
+        val drawable = drawableByName(name, type)
         if (drawable is AdaptiveIconDrawable) {
             return Pair(
                 drawable.foreground.toBitmap(scale)!!.toByteArray(),
@@ -44,9 +44,9 @@ class DrawableLoader(private val context: Context) {
         return null
     }
 
-    private fun drawableByName(name: String): Drawable? {
+    private fun drawableByName(name: String, type: String): Drawable? {
         try {
-            val resourceId = context.resources.getIdentifier(name, "drawable", context.packageName)
+            val resourceId = context.resources.getIdentifier(name, type, context.packageName)
             return ContextCompat.getDrawable(context, resourceId)
         } catch (_: Exception){ }
         return null
