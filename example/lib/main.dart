@@ -60,7 +60,7 @@ class _ColorDrawableWidgetState extends State<ColorDrawableWidget> {
     final colorDrawable =
         await AndroidDrawable().loadColor(name: 'example_color');
     setState(() {
-      _color = colorDrawable.color;
+      _color = colorDrawable?.color ?? Colors.black;
     });
   }
 
