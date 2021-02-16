@@ -26,10 +26,10 @@ class _MyAppState extends State<MyApp> {
         body: ListView(
           children: [
             const ListTile(title: Text('BitmapDrawable')),
-            Image(image: DrawableProvider.load('flutter')),
+            const Image(image: DrawableImage('flutter')),
             const ListTile(title: Text('VectorDrawable')),
-            Image(
-              image: DrawableProvider.load('child_care'),
+            const Image(
+              image: DrawableImage('child_care'),
               width: 80,
               height: 80,
             ),
@@ -58,7 +58,7 @@ class _ColorDrawableWidgetState extends State<ColorDrawableWidget> {
 
   Future<void> loadColor() async {
     final colorDrawable =
-        await AndroidDrawable().loadColor(name: 'example_color');
+        await const AndroidDrawable().loadColor(name: 'example_color');
     setState(() {
       _color = colorDrawable?.color ?? Colors.black;
     });

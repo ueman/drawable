@@ -27,7 +27,7 @@ Widget build(BuildContext context) {
   return MaterialApp(
     home: Scaffold(
       body: Center(
-        child: Image(image: DrawableProvider.load("flutter")),
+        child: Image(image: DrawableImage("flutter")),
       ),
     ),
   );
@@ -45,7 +45,7 @@ Widget build(BuildContext context) {
 | [GradientDrawable](https://developer.android.com/reference/android/graphics/drawable/GradientDrawable) | ✅ | |
 | [LayerDrawable](https://developer.android.com/reference/android/graphics/drawable/LayerDrawable) | ✅ | |
 | [LevelListDrawable](https://developer.android.com/reference/android/graphics/drawable/LevelListDrawable) | ✅ | |
-| [PictureDrawable](https://developer.android.com/reference/android/graphics/drawable/PictureDrawable) | ✅ | |
+| [PictureDrawable](https://developer.android.com/reference/android/graphics/drawable/PictureDrawable) | ✅ | Also covered by BitmapDrawables |
 | [ShapeDrawable](https://developer.android.com/reference/android/graphics/drawable/ShapeDrawable) | ✅ | |
 | [StateListDrawable](https://developer.android.com/reference/android/graphics/drawable/StateListDrawable) | ✅ | |
 | [TransitionDrawable](https://developer.android.com/reference/android/graphics/drawable/TransitionDrawable) | ✅ | |

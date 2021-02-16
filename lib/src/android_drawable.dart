@@ -17,6 +17,8 @@ const _foreground = 'foreground';
 
 /// This class loads different kinds of Android drawables
 class AndroidDrawable {
+  const AndroidDrawable();
+
   static const MethodChannel _channel = MethodChannel('de.ju.drawable');
 
   Future<BitmapDrawable?> loadBitmap({
