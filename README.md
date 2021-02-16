@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://pub.dev/packages/drawable"><img src="https://img.shields.io/pub/v/drawable.svg" alt="pub.dev"></a>
   <a href="https://github.com/ueman/drawable/actions?query=workflow%3Abuild"><img src="https://github.com/ueman/drawable/workflows/build/badge.svg?branch=main" alt="GitHub Workflow Status"></a>
-  <!-- <a href="https://codecov.io/gh/ueman/drawable"><img src="https://codecov.io/gh/ueman/drawable/branch/main/graph/badge.svg" alt="code coverage"></a> -->
+  <a href="https://codecov.io/gh/ueman/drawable"><img src="https://codecov.io/gh/ueman/drawable/branch/main/graph/badge.svg" alt="code coverage"></a>
   <a href="https://github.com/ueman#sponsor-me"><img src="https://img.shields.io/github/sponsors/ueman" alt="Sponsoring"></a>
   <a href="https://pub.dev/packages/drawable/score"><img src="https://badges.bar/drawable/likes" alt="likes"></a>
   <a href="https://pub.dev/packages/drawable/score"><img src="https://badges.bar/drawable/popularity" alt="popularity"></a>

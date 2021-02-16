@@ -51,11 +51,9 @@ class AndroidDrawable {
 
   Future<ColorDrawable?> loadColor({
     required String name,
-    DrawableType type = DrawableType.drawable,
   }) async {
     final data = await _channel.invokeMethod<int>('color', {
       _id: name,
-      _type: describeEnum(type),
     });
     if (data == null) {
       return null;
@@ -69,7 +67,7 @@ class AndroidDrawable {
     DrawableType type = DrawableType.drawable,
   }) async {
     final data =
-        await _channel.invokeMethod<Map<String, Uint8List>>('adaptiveIcon', {
+        await _channel.invokeMethod<Map<dynamic, dynamic>>('adaptiveIcon', {
       _id: name,
       _type: describeEnum(type),
       _scale: scale,
@@ -78,8 +76,8 @@ class AndroidDrawable {
       return null;
     }
     return AdaptiveIconDrawable(
-      data[_foreground]!,
-      data[_background]!,
+      data[_foreground] as Uint8List,
+      data[_background] as Uint8List,
     );
   }
 }
