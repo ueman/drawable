@@ -10,6 +10,9 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 const val channelId = "de.ju.drawable"
 const val drawableId = "id"
+const val scaleKey = "scale"
+const val foregroundKey = "foreground"
+const val backgroundKey = "background"
 
 /** DrawablePlugin */
 class DrawablePlugin: FlutterPlugin, MethodCallHandler {
@@ -31,6 +34,8 @@ class DrawablePlugin: FlutterPlugin, MethodCallHandler {
     when (call.method) {
       "bitmap" -> loadBitmap(call, result)
       "color" -> loadColor(call, result)
+      "vector" -> loadVector(call, result)
+      "adaptiveIcon" -> loadAdaptiveIconDrawable(call, result)
       else -> { // Note the block
         result.notImplemented()
       }
@@ -66,6 +71,56 @@ class DrawablePlugin: FlutterPlugin, MethodCallHandler {
         "The specified drawable for id $bitmapName could not be found",
         null
       )
+    }
+  }
+
+  private fun loadVector(call: MethodCall, result: Result) {
+    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP){
+      result.error(
+              "VectorDrawable",
+              "Vector Drawable are not supported on this SDK Level: ${android.os.Build.VERSION.SDK_INT}",
+              null
+      )
+
+    }else {
+      val vectorName = call.argument<String>(drawableId)!!
+      val scale = call.argument<Int>(scaleKey)!!
+      val color = loader.loadVectorDrawable(vectorName, scale)
+      if (color != null) {
+        result.success(color)
+      } else {
+        result.error(
+          "Drawable not found",
+          "The specified drawable for id $vectorName could not be found",
+          null
+        )
+      }
+    }
+  }
+
+  private fun loadAdaptiveIconDrawable(call: MethodCall, result: Result) {
+    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O){
+      result.error(
+        "AdaptiveIconDrawable",
+        "AdaptiveIconDrawable are not supported on this SDK Level: ${android.os.Build.VERSION.SDK_INT}",
+        null
+      )
+    }else {
+      val vectorName = call.argument<String>(drawableId)!!
+      val scale = call.argument<Int>(scaleKey)!!
+      val adaptiveIconDrawable = loader.loadAdaptiveIconDrawable(vectorName, scale)
+      if(adaptiveIconDrawable != null){
+        result.success(mapOf(
+          foregroundKey to adaptiveIconDrawable.first,
+          backgroundKey to adaptiveIconDrawable.second
+        ))
+      } else {
+        result.error(
+          "Drawable not found",
+          "The specified drawable for id $vectorName could not be found",
+          null
+        )
+      }
     }
   }
 }

@@ -1,11 +1,12 @@
 package de.ju.drawable
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.*
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
 
@@ -14,10 +15,31 @@ class DrawableLoader(private val context: Context) {
         return drawableByName(name)?.toBitmap()?.toByteArray()
     }
 
-    fun loadColorDrawable(name: String): Int? {
+    fun loadColorDrawable(name: String): Int {
+        val res: Resources = context.resources
+        val packageName: String = context.packageName
+
+        val colorId  = res.getIdentifier(name, "color", packageName)
+        return ContextCompat.getColor(context, colorId)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun loadVectorDrawable(name: String, scale: Int): ByteArray? {
         val drawable = drawableByName(name)
-        if(drawable is ColorDrawable) {
-            return drawable.color
+        if(drawable is VectorDrawable) {
+            return drawable.toBitmap(scale)?.toByteArray()
+        }
+        return null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun loadAdaptiveIconDrawable(name: String, scale: Int): Pair<ByteArray, ByteArray>? {
+        val drawable = drawableByName(name)
+        if (drawable is AdaptiveIconDrawable) {
+            return Pair(
+                drawable.foreground.toBitmap(scale)!!.toByteArray(),
+                drawable.background.toBitmap(scale)!!.toByteArray()
+            )
         }
         return null
     }
@@ -31,7 +53,7 @@ class DrawableLoader(private val context: Context) {
     }
 }
 
-fun Drawable.toBitmap(): Bitmap? {
+fun Drawable.toBitmap(scale: Int = 1): Bitmap? {
     if (this is BitmapDrawable) {
         if (this.bitmap != null) {
             return this.bitmap
@@ -45,7 +67,11 @@ fun Drawable.toBitmap(): Bitmap? {
         // Single color bitmap will be created of 1x1 pixel
         Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) 
     } else {
-        Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        Bitmap.createBitmap(
+            this.intrinsicWidth * scale,
+            this.intrinsicHeight * scale,
+            Bitmap.Config.ARGB_8888
+        )
     }
     val canvas = Canvas(bitmap)
     this.setBounds(0, 0, canvas.width, canvas.height)

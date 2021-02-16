@@ -1,5 +1,7 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:drawable/src/drawables/adaptive_icon_drawable.dart';
 import 'package:drawable/src/drawables/bitmap_drawable.dart';
 import 'package:drawable/src/drawables/color_drawable.dart';
 import 'package:drawable/src/drawable_type.dart';
@@ -7,6 +9,13 @@ import 'package:drawable/src/drawables/vector_drawable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+const _id = 'id';
+const _type = 'type';
+const _scale = 'scale';
+const _background = 'background';
+const _foreground = 'foreground';
+
+/// This class loads different kinds of Android drawables
 class AndroidDrawable {
   static const MethodChannel _channel = MethodChannel('de.ju.drawable');
 
@@ -15,8 +24,8 @@ class AndroidDrawable {
     DrawableType type = DrawableType.drawable,
   }) async {
     final bitmapData = await _channel.invokeMethod<Uint8List>('bitmap', {
-      'id': name,
-      'type': describeEnum(type),
+      _id: name,
+      _type: describeEnum(type),
     });
     if (bitmapData == null) {
       return null;
@@ -27,14 +36,50 @@ class AndroidDrawable {
   Future<VectorDrawable?> loadVector({
     required String name,
     DrawableType type = DrawableType.drawable,
+    int scale = 1,
   }) async {
-    return null;
+    final data = await _channel.invokeMethod<Uint8List>('vector', {
+      _id: name,
+      _type: describeEnum(type),
+      _scale: scale,
+    });
+    if (data == null) {
+      return null;
+    }
+    return VectorDrawable(data);
   }
 
   Future<ColorDrawable?> loadColor({
     required String name,
     DrawableType type = DrawableType.drawable,
   }) async {
-    return null;
+    final data = await _channel.invokeMethod<int>('color', {
+      _id: name,
+      _type: describeEnum(type),
+    });
+    if (data == null) {
+      return null;
+    }
+    return ColorDrawable(Color(data));
+  }
+
+  Future<AdaptiveIconDrawable?> loadAdaptiveIcon({
+    required String name,
+    int scale = 1,
+    DrawableType type = DrawableType.drawable,
+  }) async {
+    final data =
+        await _channel.invokeMethod<Map<String, Uint8List>>('adaptiveIcon', {
+      _id: name,
+      _type: describeEnum(type),
+      _scale: scale,
+    });
+    if (data == null) {
+      return null;
+    }
+    return AdaptiveIconDrawable(
+      data[_foreground]!,
+      data[_background]!,
+    );
   }
 }

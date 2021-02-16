@@ -28,10 +28,48 @@ class _MyAppState extends State<MyApp> {
             const ListTile(title: Text('BitmapDrawable')),
             Image(image: DrawableProvider.load('flutter')),
             const ListTile(title: Text('VectorDrawable')),
-            Image(image: DrawableProvider.load('child_care')),
+            Image(
+              image: DrawableProvider.load('child_care'),
+              width: 80,
+              height: 80,
+            ),
+            const ListTile(title: Text('ColorDrawable')),
+            ColorDrawableWidget(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ColorDrawableWidget extends StatefulWidget {
+  @override
+  _ColorDrawableWidgetState createState() => _ColorDrawableWidgetState();
+}
+
+class _ColorDrawableWidgetState extends State<ColorDrawableWidget> {
+  Color _color = Colors.transparent;
+
+  @override
+  void initState() {
+    super.initState();
+    loadColor();
+  }
+
+  Future<void> loadColor() async {
+    final colorDrawable =
+        await AndroidDrawable().loadColor(name: 'example_color');
+    setState(() {
+      _color = colorDrawable.color;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: _color,
+      width: 50,
+      height: 50,
     );
   }
 }
