@@ -12,9 +12,6 @@
 
 ---
 
-🚧 THIS IS A PRE-RELEASE 🚧 
-🚧 USE AT YOUR OWN RISK 🚧
-
 A Flutter plugin to share images between Flutter and Android.
 For iOS please use [ios_platform_images](https://pub.dev/packages/ios_platform_images).
 
@@ -34,6 +31,18 @@ Widget build(BuildContext context) {
 }
 ```
 
+If you want to do something different with the drawables you 
+receive them directly like this:
+
+```dart
+import 'package:drawable/drawable.dart';
+
+Future<void> main() async {
+    const androidDrawable = AndroidDrawable();
+    final drawable = await androidDrawable.loadBitmap('drawable_id');
+} 
+```
+
 ## Supported drawables
 
 | Drawable type | Supported | Additional notes     |
@@ -41,20 +50,26 @@ Widget build(BuildContext context) {
 | [AdaptiveIconDrawable](https://developer.android.com/reference/android/graphics/drawable/AdaptiveIconDrawable) | ✅ | |
 | [BitmapDrawable](https://developer.android.com/guide/topics/resources/drawable-resource#Bitmap)               | ✅ | |
 | [ColorDrawable](https://developer.android.com/reference/android/graphics/drawable/ColorDrawable) | ✅ | |
-| [ColorStateListDrawable](https://developer.android.com/reference/android/graphics/drawable/ColorStateListDrawable) | ✅ | |
-| [GradientDrawable](https://developer.android.com/reference/android/graphics/drawable/GradientDrawable) | ✅ | |
-| [LayerDrawable](https://developer.android.com/reference/android/graphics/drawable/LayerDrawable) | ✅ | |
-| [LevelListDrawable](https://developer.android.com/reference/android/graphics/drawable/LevelListDrawable) | ✅ | |
-| [PictureDrawable](https://developer.android.com/reference/android/graphics/drawable/PictureDrawable) | ✅ | Also covered by BitmapDrawables |
-| [ShapeDrawable](https://developer.android.com/reference/android/graphics/drawable/ShapeDrawable) | ✅ | |
-| [StateListDrawable](https://developer.android.com/reference/android/graphics/drawable/StateListDrawable) | ✅ | |
-| [TransitionDrawable](https://developer.android.com/reference/android/graphics/drawable/TransitionDrawable) | ✅ | |
 | [VectorDrawable](https://developer.android.com/reference/android/graphics/drawable/VectorDrawable) | ✅ | Because of limitations of Android, this is not a vector on the Flutter side. |
 
+The following drawable are supported as Bitmap Drawables.
 Please note, that all of these drawable are currently converted to a bitmap.
 More sophisticated support is planned, but currently not available.
 
+| Drawable type |
+|---------------|
+| [ColorStateListDrawable](https://developer.android.com/reference/android/graphics/drawable/ColorStateListDrawable) |
+| [GradientDrawable](https://developer.android.com/reference/android/graphics/drawable/GradientDrawable) | 
+| [LayerDrawable](https://developer.android.com/reference/android/graphics/drawable/LayerDrawable) | 
+| [LevelListDrawable](https://developer.android.com/reference/android/graphics/drawable/LevelListDrawable) |
+| [PictureDrawable](https://developer.android.com/reference/android/graphics/drawable/PictureDrawable) |
+| [ShapeDrawable](https://developer.android.com/reference/android/graphics/drawable/ShapeDrawable) | 
+| [StateListDrawable](https://developer.android.com/reference/android/graphics/drawable/StateListDrawable) |
+| [TransitionDrawable](https://developer.android.com/reference/android/graphics/drawable/TransitionDrawable) |
+
+
 List of currently unsupported drawables:
+
 - [AnimatedImageDrawable](https://developer.android.com/reference/android/graphics/drawable/AnimatedImageDrawable)
 - [AnimatedStateListDrawable](https://developer.android.com/reference/android/graphics/drawable/AnimatedStateListDrawable)
 - [AnimatedVectorDrawable](https://developer.android.com/reference/android/graphics/drawable/AnimatedVectorDrawable)
@@ -66,11 +81,6 @@ List of currently unsupported drawables:
 - [RippleDrawable](https://developer.android.com/reference/android/graphics/drawable/RippleDrawable)
 - [RotateDrawable](https://developer.android.com/reference/android/graphics/drawable/RotateDrawable)
 - [ScaleDrawable](https://developer.android.com/reference/android/graphics/drawable/ScaleDrawable)
-
-
-Also see:
-- https://developer.android.com/guide/topics/resources/drawable-resource
-- https://developer.android.com/reference/android/graphics/drawable/Drawable
 
 ## 📣  Author
 
